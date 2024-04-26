@@ -80,7 +80,24 @@ class LivroController {
     }
   };
 
-  static listarLivroPorEditora = async (req, res, next) => {
+  static listarLivroPorFiltro = async (req, res, next) => {
+    try {
+      const { editora, titulo } = req.query;
+      const busca = {};
+
+      if (editora) busca.editora = editora;
+      if (titulo) busca.titulo = titulo;
+
+      const livrosResultado = await livros.find(busca);
+
+      res.status(200).send(livrosResultado);
+    } catch (erro) {
+      next(erro);
+    }
+  };
+}
+
+/*   static listarLivroPorEditora = async (req, res, next) => {
     try {
       const editora = req.query.editora;
 
@@ -91,6 +108,6 @@ class LivroController {
       next(erro);
     }
   };
-}
+} */
 
 export default LivroController;
